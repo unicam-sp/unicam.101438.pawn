@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import LogScreenMenu from '../screens/LogScreenMenu';
 import SignUp from '../screens/SignUp';
 import LogIn from '../screens/LogIn';
+import HeaderMenu from '../screens/HeaderMenu'
 
 const Stack = createStackNavigator();
 
@@ -22,7 +23,13 @@ export default function LogInRoutes({isSignedIn, setSigned}) {
         <Stack.Screen
           name="LogScreenMenu"
           component={LogScreenMenu}
-          options={{title: 'Todos - Log Page', headerTitleAlign: 'center'}}
+          options={
+            {
+              title: 'Todos - Log Page', 
+              headerTitleAlign: 'center',
+              headerRight: () => <HeaderMenu />,
+            }
+          }
         />
         <Stack.Screen
           name="SignUp"

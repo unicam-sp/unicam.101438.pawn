@@ -7,6 +7,20 @@ function getUrl() {
     .then( json => { return json.url })
 }
 
+export async function signup(password, username) {
+    return fetch(await getUrl() + '/user/signup', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+    })
+}
+
 export async function login(password, username) {
     return fetch(await getUrl() + '/user/login', {
         method: 'POST',

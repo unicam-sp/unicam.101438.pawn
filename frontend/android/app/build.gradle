@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.todossinglepage"
+        applicationId "com.todos"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

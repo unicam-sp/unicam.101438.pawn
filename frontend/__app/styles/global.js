@@ -163,3 +163,48 @@ export const TodoScreenCSS = StyleSheet.create({
     borderRadius: 8,
   }
 })
+
+export const HeaderMenuCSS = StyleSheet.create({
+  header_button: {
+    marginRight: 10,
+  },
+  header_button_text: {
+    fontSize: 36,
+    color: 'white'
+  },
+  /* MENU MODAL */
+  modal_background: {
+    flex: 1,
+    margin: 1
+  },
+  modal_menu: {
+    width: '50%',
+    padding: 5,
+    marginTop: 57,
+    backgroundColor: 'white',
+    borderWidth: 0.5,
+    borderColor: '#000000',
+    alignSelf: 'flex-end'
+  },
+  modal_menu_button: {
+    padding: 3,
+    margin: 1
+  },
+  modal_menu_text: {
+    fontFamily: 'Roboto',
+    textAlign: 'center',
+    fontSize: 18,
+  },
+  modal_menu_separator: {
+    alignSelf: 'center',
+    borderWidth: 0.2,
+    width: '80%',
+    margin: 1
+  },
+  log_button: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: 'black',
+  },
+ 
+})

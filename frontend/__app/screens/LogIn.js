@@ -3,6 +3,7 @@ import {TouchableOpacity, Text, TextInput, View, Alert} from 'react-native';
 import {generalCSS, LogInCSS, PasswordTextInput} from '../styles/global';
 import * as Keychain from 'react-native-keychain';
 import {login} from '../myutils/myreq'
+import {LOG} from '../myutils/logger'
 
 export default function LogIn({isSignedIn, setSigned, navigation}) {
   const [username, setUsername] = useState('');
@@ -42,25 +43,11 @@ async function sendLogInAsync(isSignedIn, setSigned, username, password) {
       await Keychain.setGenericPassword(
         username,
         json.token,
-      ).then(function () {
-        console.log('Credentials saved successfully!');
+      ).then( () => {
+        LOG('Credentials saved successfully!');
         setSigned(true)
       })
     }
   }
-  catch (e) { console.log(e) }
+  catch (e) { LOG(e) }
 }
-
-
-/*
-  try {
-      const credentials = await Keychain.getGenericPassword();
-      if (credentials) {
-        console.log( 'Credentials successfully loaded for user ' + credentials.username);
-      } else {
-        console.log('No credentials stored');
-      }
-    } catch (error) {
-      console.log("Keychain couldn't be accessed!", error);
-    }
-*/

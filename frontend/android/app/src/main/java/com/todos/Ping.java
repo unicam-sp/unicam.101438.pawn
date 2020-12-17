@@ -18,20 +18,24 @@ public class Ping extends ReactContextBaseJavaModule {
     
     @ReactMethod
     public void checkServerStatus(String serverIP, Promise promise) {
-        try {
-            InetAddress inet = InetAddress.getByName(serverIP);
-            if( inet.isReachable(5000) ) {
-                String results = serverIP + " is reachable";
-                // results += InetAddress.getLocalHost();
-                promise.resolve(results);
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    InetAddress inet = InetAddress.getByName(serverIP);
+                    if( inet.isReachable(5000) ) {
+                        String results = serverIP + " is reachable";
+                        // results += InetAddress.getLocalHost();
+                        promise.resolve(results);
+                    }
+                    else {
+                        promise.reject(serverIP + " is not reachable");
+                    }
+                }
+                catch (Exception e) {
+                    promise.reject(e.getMessage());
+                }
             }
-            else {
-                promise.reject(serverIP + " is not reachable");
-            }
-        }
-        catch (Exception e) {
-            promise.reject(e.getMessage());
-        }
+        }).start();
     }
 
     // import { NativeModules } from 'react-native'

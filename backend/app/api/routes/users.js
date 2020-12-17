@@ -47,7 +47,7 @@ router.post('/login', (req, res, next) => {
             // 60*60 = 3600 seconds = "1h"
             const token = jwt.sign(
                 { username: user.username },
-                fs.readFileSync('./keys/key.pem'),
+                fs.readFileSync('./ssl/privkey.pem'),
                 { 
                     algorithm: 'RS256',
                     expiresIn: 60 * 60

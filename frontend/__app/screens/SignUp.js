@@ -6,8 +6,9 @@ import {
     View, Alert,
     PermissionsAndroid
 } from 'react-native'
-import {LogInCSS, PasswordTextInput, generalCSS} from '../styles/global'
+import {generalCSS, LogInCSS, PasswordTextInput} from '../styles/global'
 import {checkPasswords} from '../myutils/checker'
+import {signup} from '../myutils/myreq'
 
 export default function SignUp({navigation}) {
 
@@ -42,24 +43,12 @@ export default function SignUp({navigation}) {
     )
 }
 
-// passwordprova
-
 function sendSignUp(username, pass1, pass2, navigation) {
     let check = checkPasswords(pass1, pass2)
     if(check !== true) return Alert.alert(check)
     if(username === '') return Alert.alert('username can\t be empty')
 
-    fetch('http://10.0.2.2:3000/user/signup', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            username: username,
-            password: pass1
-        })
-    })
+    signup(pass1, username)
     .then((response) => {
         console.log(response.status)
         if(response.headers.get('content-type') === 'application/json; charset=utf-8')
@@ -81,28 +70,4 @@ function sendSignUp(username, pass1, pass2, navigation) {
         console.error(error)
         Alert.alert('Can\'t connect to the server')
     })
-}
-
-const requestCameraPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: "Cool Photo App Camera Permission",
-          message:
-            "Cool Photo App needs access to your camera " +
-            "so you can take awesome pictures.",
-            buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log("You can use the camera");
-      } else {
-          console.log("Camera permission denied");
-        }
-    } catch (err) {
-        console.warn(err);
-    }
 }

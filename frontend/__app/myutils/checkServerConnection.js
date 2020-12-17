@@ -3,6 +3,7 @@ import * as Keychain from 'react-native-keychain'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo'
 import {gettodos} from './myreq'
+import {LOG} from '../myutils/logger'
 
 export function checkInternetConnection(isSignedIn, setSigned) {
 
@@ -12,15 +13,14 @@ export function checkInternetConnection(isSignedIn, setSigned) {
 
         // Check internet connection
         NetInfo.fetch().then((state) => {
-            if (state.isConnected !== true) 
-                return Alert.alert('You need to be connected to internet');
-            console.log("INTERNET: ON") 
+            if (state.isConnected !== true) return Alert.alert('You need to be connected to internet');
+            LOG('INTERNET: ON')
         })
 
-        // il ping è un ICMP non controlla la porta
+        // ping use ICMP it doen't check the port
         NativeModules.Ping.checkServerStatus(serverJson.serverIP)
-        .then( msg => { console.log("PING: " + msg) })
-        .catch( err => { console.log("PING ERROR: " + err) });
+        .then( msg => { LOG("PING: " + msg) })
+        .catch( err => { LOG("PING: " + err) });
         
         checkPortAndValidateToken()
         .then( result => {
@@ -30,7 +30,11 @@ export function checkInternetConnection(isSignedIn, setSigned) {
             }
             else setSigned(true)
         })
-        .catch( (msg) => Alert.alert(msg))
+        .catch( (msg) => {
+            if(msg == null)  Alert.alert('Can\'t connect to the server')
+            else Alert.alert(msg)
+        })
+
     })
 };
 
@@ -39,7 +43,7 @@ function checkPortAndValidateToken() {
     return new Promise((resolve, reject) => {
         Keychain.getGenericPassword()
         .then( option => {
-            if(!option) reject('Login please')
+            if(!option) reject('Login please') // token not saved
             gettodos(option.password, option.username)
             .then( res => { return res.json() })
             .then( json => {
@@ -47,9 +51,9 @@ function checkPortAndValidateToken() {
                     resolve('invalid')
                 else resolve('valid')
             })
-            .catch( (e) => { reject('Server not reachable') })
+            .catch( fetchError => LOG(fetchError) )
         })
 
-        setTimeout(reject, 3000) // this check the server
+        setTimeout(reject, 3000) // after 3 secs reject
     })
 }

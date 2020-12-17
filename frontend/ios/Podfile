@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'TodosSinglePage' do
+target 'Todos' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'TodosSinglePageTests' do
+  target 'TodosTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'TodosSinglePage' do
   end
 end
 
-target 'TodosSinglePage-tvOS' do
-  # Pods for TodosSinglePage-tvOS
+target 'Todos-tvOS' do
+  # Pods for Todos-tvOS
 
-  target 'TodosSinglePage-tvOSTests' do
+  target 'Todos-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

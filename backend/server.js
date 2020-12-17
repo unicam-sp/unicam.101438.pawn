@@ -4,9 +4,19 @@ const app = require('./app/app')
 
 const port = process.env.PORT || 3000
 
+/*
 const options = {
-    key: fs.readFileSync('./keys/key.pem'),
-    cert: fs.readFileSync('./keys/cert.pem')
+    key: fs.readFileSync('./ssl/key.pem'),
+    cert: fs.readFileSync('./ssl/cert.pem'),
+    ca: [
+        fs.readFileSync('ssl/COMODORSADomainValidationSecureServerCA.crt', 'utf8')
+    ]
+}
+*/
+
+const options = {
+    key: fs.readFileSync('./ssl/key.pem'),
+    cert: fs.readFileSync('./ssl/cert.pem')
 }
 
 const server = https.createServer(options, app)

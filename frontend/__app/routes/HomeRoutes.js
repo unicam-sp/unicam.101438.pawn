@@ -3,13 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack"
 import TodoScreen from '../screens/TodosScreen'
 import ScreenProva from '../screens/ScreenProva'
 
-/*
-  Su TodoScreen?
-    - get datas
-      - user profile with groups
-      - personal todos
-*/
-
 const Stack = createStackNavigator()
 
 export default function HomeRoutes() {
