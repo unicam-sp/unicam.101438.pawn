@@ -1,10 +1,33 @@
 <h1 align="center">Todos</h1>
 
+- [L'idea dietro l'app](#lidea-dietro-lapp)
 - [Tecnologie utilizzate](#tecnologie-utilizzate)
 - [Backend & API](#backend--api)
 - [Keys, CA, Self-signed certificate](#keys-ca-self-signed-certificate)
   - [checkAuth](#checkauth)
-- [frontend](#frontend)
+- [Frontend](#frontend)
+  - [Modulo nativo solamente per Android](#modulo-nativo-solamente-per-android)
+
+## L'idea dietro l'app
+
+In questo momento l'app supporta 2 funzioni:
+- la funzione di registrazione di un utente
+- l'aggiunta e l'eliminazione da parte di un utente loggato di promemoria
+
+Ad un utente che avrà effettuato il login verrà presentata una schermata dove potrà aggiungere od eliminare dei promemoria.
+
+<div class="brands">
+  <ul style="">
+    <li style="display: inline-block; list-style: none;"><img src="LoginScreen.png" style="width:200px"></li>
+    <li style="display: inline-block; list-style: none;"><img src="LoginHome.png" style="width:200px"></li>
+    <li style="display: inline-block; list-style: none;"><img src="SignUp.png" style="width:200px"></li>
+  </ul>
+  <ul>
+    <li style="display: inline-block; list-style: none;"><img src="TodosHome.png" style="width:200px"></li>
+    <li style="display: inline-block; list-style: none;"><img src="TodoAdd.png" style="width:200px"></li>
+    <li style="display: inline-block; list-style: none;"><img src="Todos1.png" style="width:200px"></li>
+  </ul>
+</div>
 
 ## Tecnologie utilizzate
 
@@ -13,7 +36,7 @@ Frontend:
   - @react-navigation
     - @react-navigation/native
     - @react-navigation/stack
-    - e tutti i pacchetti per supportare la navigazione
+    - e tutti i pacchetti per supportare @react-navigation
   - @react-native-community/netinfo
   - @react-native-async-storage/async-storage
   - fetch, per tutte le richieste
@@ -26,21 +49,19 @@ Backend:
   - bcrypt
   - mongodb
   - mongoose
-  - morgan
+  - morgan (per i log)
   - nodemon
 - MongoDB
 - OpenSSL
 
+<br>
+<br>
+<br>
+<br>
+
 ## Backend & API
 
-Ogni volta che l'emulatore si avvia resetta i CA, ho optato per ora di usare l'HTTP, ma settando dei CA persistenti sull'emulatore, oppure usando un vero device, è possibile utilizzare il server con protocollo HTTPS.
-
 Il server dispone di queste API:
-<br>
-<br>
-<br>
-<br>
-<br>
 - https://localhost
   - /user
     - post('/signup', ... ), registrazione
@@ -54,8 +75,6 @@ Il server dispone di queste API:
   - /groups
     - per ora non è implementata come funzione ma l'idea è quella di avere dei gruppi che condividono cose da fare
 
-Utilizza un pacchetto chiamato ```morgan``` per loggare a terminale ogni richiesta. Usa l'HTTP e non l'HTTPS.
-
 ## Keys, CA, Self-signed certificate
 
 ```bash
@@ -63,7 +82,7 @@ Utilizza un pacchetto chiamato ```morgan``` per loggare a terminale ogni richies
 openssl genrsa -out key.pem
 # generate CSR
 openssl req -new -key key.pem -out csr.pem -subj "/C=IT/ST=Italy/L=The Brands/O=Mosciolo Task Force/OU=SFC/CN=jakkins.who/emailAddress=totallytrustablecertificate"
-# sign the CSR with the private key
+# sign the CSR with the private key and remove it
 openssl x509 -req -days 60 -in csr.pem -signkey key.pem -out cert.pem
 # remove the CSR
 rm csr.pem
@@ -95,21 +114,12 @@ Se l'autenticazione avviene con successo verranno aggiunti ai dati della richies
 
 <br>
 
-## frontend
+## Frontend
 
-Su ./android/app/src/debug/AndroidManifest.xml l'opzione ```android:usesCleartextTraffic="true"``` permette lo scambio dati con l'HTTP che da Android 9.0 se non sbaglio è stato rimosso.
+Su ```frontend/android/app/src/debug/AndroidManifest.xml``` l'opzione ```android:usesCleartextTraffic="true"``` permette lo scambio dati con l'HTTP che da Android 9.0 se non sbaglio è stato rimosso.
 
 Tutto il codice del frontend risiede all'interno della cartella ```__app```.
 
-<div class="brands">
-  <ul style="">
-    <li style="display: inline-block; list-style: none;"><img src="LoginScreen.png" style="width:200px"></li>
-    <li style="display: inline-block; list-style: none;"><img src="LoginHome.png" style="width:200px"></li>
-    <li style="display: inline-block; list-style: none;"><img src="SignUp.png" style="width:200px"></li>
-  </ul>
-  <ul>
-    <li style="display: inline-block; list-style: none;"><img src="TodosHome.png" style="width:200px"></li>
-    <li style="display: inline-block; list-style: none;"><img src="TodoAdd.png" style="width:200px"></li>
-    <li style="display: inline-block; list-style: none;"><img src="Todos1.png" style="width:200px"></li>
-  </ul>
-</div>
+### Modulo nativo solamente per Android
+
+Dentro la cartella ```frontend/android/app/source/main/java.com.todos/``` ho creato due moduli che però sussistono solo nella versione dell'app per Android.
